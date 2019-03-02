@@ -67,6 +67,11 @@ app.use(((error, req, res, next) => {
 
 const port = process.env.PORT || 8080;
 
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
+const server = app.listen(port, () => {
+
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+        console.log('client connected');
+    });
+
 });
