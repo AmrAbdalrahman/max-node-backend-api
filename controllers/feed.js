@@ -47,7 +47,7 @@ exports.createPost = async (req, res, next) => {
     const post = new Post({
         title: title,
         content: content,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl.imageUrl.replace('\\', '/'),
         creator: req.userId
     });
     try {
@@ -126,7 +126,7 @@ exports.updatePost = async (req, res, next) => {
             clearImage(post.imageUrl);
         }
         post.title = title;
-        post.imageUrl = imageUrl;
+        post.imageUrl = imageUrl.replace('\\', '/');
         post.content = content;
         const result = await post.save();
         io.getIO().emit('posts', { action: 'update', post: result });
